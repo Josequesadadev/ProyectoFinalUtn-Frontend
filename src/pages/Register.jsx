@@ -8,7 +8,7 @@ const Register = () => {
     password: ""
   })
   const [loader, setLoader] = useState(false)
-
+  const API_URL = import.meta.env.VITE_API_URL
   const navigate = useNavigate()
 
   const handleChange = (e) => {
@@ -22,7 +22,7 @@ const Register = () => {
     e.preventDefault()
     setLoader(true)
     try {
-      const response = await fetch("http://localhost:3000/auth/register", {
+      const response = await fetch(`${API_URL}/auth/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

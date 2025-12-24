@@ -8,6 +8,7 @@ export default function Contact() {
     message: ""
   });
   const [loader, setLoader] = useState(false)
+  const API_URL = import.meta.env.VITE_API_URL
 
   const handleChange = (e) => {
     setForm({
@@ -20,7 +21,7 @@ export default function Contact() {
     e.preventDefault();
     setLoader(true)
     try {
-      const response = await fetch("http://localhost:3000/email/send", {
+      const response = await fetch(`${API_URL}/email/send`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

@@ -15,6 +15,7 @@ const Home = () => {
     }
   }
 
+  const API_URL = import.meta.env.VITE_API_URL
   const [products, setProducts] = useState([])
   const [selectedProduct, setSelectedProduct] = useState(null)
   const [filters, setFilters] = useState({
@@ -26,13 +27,12 @@ const Home = () => {
   })
   const [responseServer, setResponseServer] = useState(initialErrorState)
 
-  // { id: '6925fe9645e9b029b62ac797', iat: 1764101665, exp: 1764105265 }
   const { user, token } = useAuth()
 
   const fetchingProducts = async (query = "") => {
     setResponseServer(initialErrorState)
     try {
-      const response = await fetch(`http://localhost:3000/products?${query}`, {
+      const response = await fetch(`${API_URL}/products?${query}`, {
         method: "GET"
       })
       const dataProducts = await response.json()
@@ -67,7 +67,7 @@ const Home = () => {
     }
 
     try {
-      const response = await fetch(`http://localhost:3000/products/${idProduct}`, {
+      const response = await fetch(`${API_URL}/products/${idProduct}`, {
         method: "DELETE",
         headers: {
           "Authorization": `Bearer ${token}`
@@ -215,7 +215,6 @@ const Home = () => {
       </section>
       {!responseServer.error.fetch && <ToastMessage color={"red"} msg={responseServer.notification} />}
       {responseServer.success && <ToastMessage color={"green"} msg={responseServer.notification} />}
-      {/* {error.delete && <ToastMessage error={error.delete} color={"red"} />} */}
     </Layout>
   )
 }

@@ -13,7 +13,7 @@ const AddProduct = () => {
   })
 
   const navigate = useNavigate()
-
+  const API_URL = import.meta.env.VITE_API_URL
   const { token } = useAuth()
   const [loader, setLoader] = useState(false)
 
@@ -30,7 +30,7 @@ const AddProduct = () => {
     console.log(token)
 
     try {
-      const response = await fetch(`http://localhost:3000/products`, {
+      const response = await fetch(`${API_URL}/products`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

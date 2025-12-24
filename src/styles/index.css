@@ -344,7 +344,6 @@ button[aria-busy="true"]::after {
   display: flex;
   justify-content: center;
   margin-top: 40px;
-  background-color: ;
 } 
 
 .center-auth .form-container {
