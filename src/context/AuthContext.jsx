@@ -2,9 +2,6 @@ import { createContext, useContext, useState } from "react";
 
 const AuthContext = createContext()
 
-// user -> true | false
-// login() -> setUser(true)
-// logout() -> setUser(false)
 
 const decodeJWT = (token) => {
   try {
@@ -20,8 +17,7 @@ const decodeJWT = (token) => {
 const AuthProvider = ({ children }) => {
   const savedToken = sessionStorage.getItem("token")
   const [token, setToken] = useState(savedToken || null)
-  // 1 - ✅ si tengo token tengo usuario
-  // 2 - descifrar el payload del token
+
   const [user, setUser] = useState(() => savedToken ? decodeJWT(savedToken) : null)
 
   const login = (token) => {
@@ -43,7 +39,6 @@ const AuthProvider = ({ children }) => {
   )
 }
 
-// custom hook
 const useAuth = () => useContext(AuthContext)
 
 export { AuthProvider, useAuth }

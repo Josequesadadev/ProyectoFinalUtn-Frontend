@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react"
-import Layout from "../components/Layout"
-import UpdateProduct from "../components/UpdateProduct"
-import { useAuth } from "../context/AuthContext"
-import { CATEGORIES } from "../constants/categories.js"
-import { ToastMessage } from "../components/ToastMessage.jsx"
+import Layout from "../../components/Layout"
+import UpdateProduct from "../../components/UpdateProduct"
+import { useAuth } from "../../context/AuthContext"
+import { CATEGORIES } from "../../constants/categories.js"
+import { ToastMessage } from "../../components/ToastMessage.jsx"
+import { listProducts, removeProduct } from "../../controllers/productController"
 
 const Home = () => {
   const initialErrorState = {
@@ -19,10 +20,10 @@ const Home = () => {
   const [selectedProduct, setSelectedProduct] = useState(null)
   const [filters, setFilters] = useState({
     name: "",
-    stock: "",
+    stock: 0,
     category: "",
-    minPrice: "",
-    maxPrice: ""
+    minPrice: 0,
+    maxPrice: 0
   })
   const [responseServer, setResponseServer] = useState(initialErrorState)
 
@@ -32,20 +33,18 @@ const Home = () => {
   const fetchingProducts = async (query = "") => {
     setResponseServer(initialErrorState)
     try {
-      const response = await fetch(`http://localhost:3000/products?${query}`, {
-        method: "GET"
-      })
-      const dataProducts = await response.json()
+      const dataProducts = await listProducts(query)
       setProducts(dataProducts.data.reverse())
       setResponseServer({
         success: true,
-        notification: "Exito al cargar los productos",
+        notification: "Éxito al cargar los productos",
         error: {
           ...responseServer.error,
           fetch: true
         }
       })
     } catch (e) {
+      console.error(e)
       setResponseServer({
         success: false,
         notification: "Error al traer los datos",
@@ -62,18 +61,12 @@ const Home = () => {
   }, [])
 
   const deleteProduct = async (idProduct) => {
-    if (!confirm("¿Estas seguro de que deseas borrar el producto?")) {
+    if (!confirm("Esta seguro de que quieres borrar el producto")) {
       return
     }
 
     try {
-      const response = await fetch(`http://localhost:3000/products/${idProduct}`, {
-        method: "DELETE",
-        headers: {
-          "Authorization": `Bearer ${token}`
-        }
-      })
-      const dataResponse = await response.json()
+      const dataResponse = await removeProduct(idProduct, token)
 
       if (dataResponse.error) {
         alert(dataResponse.error)
@@ -84,6 +77,8 @@ const Home = () => {
 
       alert(`${dataResponse.data.name} borrado con éxito.`)
     } catch (error) {
+      console.error(error)
+      setResponseServer({ ...responseServer, error: { ...responseServer.error, delete: false }, success: false, notification: "Error al borrar el producto." })
     }
   }
 
@@ -115,10 +110,10 @@ const Home = () => {
   const handleResetFilters = () => {
     setFilters({
       name: "",
-      stock: "",
+      stock: 0,
       category: "",
-      minPrice: "",
-      maxPrice: ""
+      minPrice: 0,
+      maxPrice: 0
     })
   }
 
