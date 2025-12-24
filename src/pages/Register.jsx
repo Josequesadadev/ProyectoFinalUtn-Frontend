@@ -7,8 +7,7 @@ const Register = () => {
     email: "",
     password: ""
   })
-  const [loader, setLoader] = useState(false)
-  const API_URL = import.meta.env.VITE_API_URL
+
   const navigate = useNavigate()
 
   const handleChange = (e) => {
@@ -20,9 +19,8 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    setLoader(true)
     try {
-      const response = await fetch(`${API_URL}/auth/register`, {
+      const response = await fetch("http://localhost:3000/auth/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -40,8 +38,6 @@ const Register = () => {
       navigate("/login")
     } catch (error) {
       console.log("Error al registrar el usuario", error)
-    } finally {
-      setLoader(false)
     }
   }
 
@@ -64,7 +60,7 @@ const Register = () => {
             required
             onChange={handleChange}
           />
-          <button type="submit" className="btn btn--primary" aria-busy={loader} disabled={loader}>{loader ? "Registrando..." : "Registrarse"}</button>
+          <button type="submit">Registrarse</button>
         </form>
       </div>
     </Layout>

@@ -8,8 +8,7 @@ const Login = () => {
     email: "",
     password: ""
   })
-  const [loader, setLoader] = useState(false)
-  const API_URL = import.meta.env.VITE_API_URL
+
   const { login } = useAuth()
   const navigateUser = useNavigate()
 
@@ -22,9 +21,8 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    setLoader(true)
     try {
-      const response = await fetch(`${API_URL}/auth/login`, {
+      const response = await fetch("http://localhost:3000/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -43,8 +41,6 @@ const Login = () => {
       navigateUser("/")
     } catch (error) {
       console.log(error)
-    } finally {
-      setLoader(false)
     }
   }
 
@@ -67,7 +63,7 @@ const Login = () => {
             onChange={handleChange}
             required
           />
-          <button type="submit" className="btn btn--primary" aria-busy={loader} disabled={loader}>{loader ? "Ingresando..." : "Ingresar"}</button>
+          <button type="submit">Ingresar</button>
         </form>
       </div>
     </Layout>

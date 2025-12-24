@@ -7,8 +7,6 @@ export default function Contact() {
     email: "",
     message: ""
   });
-  const [loader, setLoader] = useState(false)
-  const API_URL = import.meta.env.VITE_API_URL
 
   const handleChange = (e) => {
     setForm({
@@ -19,9 +17,8 @@ export default function Contact() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoader(true)
     try {
-      const response = await fetch(`${API_URL}/email/send`, {
+      const response = await fetch("http://localhost:3000/email/send", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -33,14 +30,12 @@ export default function Contact() {
       console.log(dataResponse)
     } catch (error) {
       console.log(error)
-    } finally {
-      setLoader(false)
     }
   };
 
   return (
     <Layout>
-      <div className="page-banner">Contacto</div>
+      <h1>Contacto</h1>
 
       <form className="contact-form" onSubmit={handleSubmit}>
 
@@ -75,7 +70,7 @@ export default function Contact() {
           />
         </div>
 
-        <button type="submit" className="btn btn--primary" aria-busy={loader} disabled={loader}>{loader ? "Enviando..." : "Enviar"}</button>
+        <button type="submit">Enviar</button>
       </form>
     </Layout>
   );

@@ -15,24 +15,24 @@ const Home = () => {
     }
   }
 
-  const API_URL = import.meta.env.VITE_API_URL
   const [products, setProducts] = useState([])
   const [selectedProduct, setSelectedProduct] = useState(null)
   const [filters, setFilters] = useState({
     name: "",
-    stock: "",
+    stock: 0,
     category: "",
-    minPrice: "",
-    maxPrice: ""
+    minPrice: 0,
+    maxPrice: 0
   })
   const [responseServer, setResponseServer] = useState(initialErrorState)
 
+  // { id: '6925fe9645e9b029b62ac797', iat: 1764101665, exp: 1764105265 }
   const { user, token } = useAuth()
 
   const fetchingProducts = async (query = "") => {
     setResponseServer(initialErrorState)
     try {
-      const response = await fetch(`${API_URL}/products?${query}`, {
+      const response = await fetch(`http://localhost:3000/products?${query}`, {
         method: "GET"
       })
       const dataProducts = await response.json()
@@ -62,12 +62,12 @@ const Home = () => {
   }, [])
 
   const deleteProduct = async (idProduct) => {
-    if (!confirm("¿Estas seguro de que deseas borrar el producto?")) {
+    if (!confirm("Esta seguro de que quieres borrar el producto")) {
       return
     }
 
     try {
-      const response = await fetch(`${API_URL}/products/${idProduct}`, {
+      const response = await fetch(`http://localhost:3000/products/${idProduct}`, {
         method: "DELETE",
         headers: {
           "Authorization": `Bearer ${token}`
@@ -84,6 +84,7 @@ const Home = () => {
 
       alert(`${dataResponse.data.name} borrado con éxito.`)
     } catch (error) {
+      // setResponseServer({ ...error, delete: "Error al borrar el producto." })
     }
   }
 
@@ -115,26 +116,21 @@ const Home = () => {
   const handleResetFilters = () => {
     setFilters({
       name: "",
-      stock: "",
+      stock: 0,
       category: "",
-      minPrice: "",
-      maxPrice: ""
+      minPrice: 0,
+      maxPrice: 0
     })
   }
 
   return (
     <Layout>
-      <div className="hero-banner">
-        <div className="banner-overlay">
-          <h1>Nuestros Productos</h1>
-          <p className="banner-subtitle">Bienvenido a <strong>GamerStore</strong> — Tu tienda de productos gamer. Encuentra teclados, auriculares, monitores y accesorios para tu setup.</p>
-        </div>
-      </div>
+      <div className="page-banner">Nuestros Productos</div>
 
       <section className="page-section">
         <p>
-          Bienvenido {user && user.id} a nuestra tienda. Bienvenido a la casa del gaming.
-          Nuestros productos son Componentes, periféricos y setups pensados por gamers, para gamers.
+          Bienvenido {user && user.id} a nuestra tienda. Aquí encontrarás una amplia variedad de productos diseñados para satisfacer
+          tus necesidades. Nuestro compromiso es ofrecer calidad y confianza.
         </p>
       </section>
 
@@ -182,8 +178,8 @@ const Home = () => {
             onChange={handleChange}
             value={filters.maxPrice}
           />
-          <button type="submit" className="btn btn--primary">Aplicar filtros</button>
-          <button type="button" className="btn" onClick={handleResetFilters}>Cancelar</button>
+          <button type="submit">Aplicar filtros</button>
+          <button type="button" onClick={handleResetFilters}>Cancelar</button>
         </form>
       </section>
 
@@ -206,8 +202,8 @@ const Home = () => {
             <p><strong>Categoría:</strong> {p.category}</p>
             {
               user && <div className="cont-btn">
-                <button className="btn btn--primary" onClick={() => handleUpdateProduct(p)}>Actualizar</button>
-                <button className="btn" onClick={() => deleteProduct(p._id)}>Borrar</button>
+                <button onClick={() => handleUpdateProduct(p)}>Actualizar</button>
+                <button onClick={() => deleteProduct(p._id)}>Borrar</button>
               </div>
             }
           </div>
@@ -215,6 +211,7 @@ const Home = () => {
       </section>
       {!responseServer.error.fetch && <ToastMessage color={"red"} msg={responseServer.notification} />}
       {responseServer.success && <ToastMessage color={"green"} msg={responseServer.notification} />}
+      {/* {error.delete && <ToastMessage error={error.delete} color={"red"} />} */}
     </Layout>
   )
 }

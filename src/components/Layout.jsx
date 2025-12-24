@@ -14,28 +14,22 @@ const Layout = ({ children }) => {
   return (
     <>
       <header className="layout-header">
-        <nav className="layout-nav container">
-
-          <div className="nav-center">
-            <Link to="/">Nuestros productos</Link>
-            <Link to="/sobre-nosotros">Sobre nosotros</Link>
-            <Link to="/contacto">Contactanos</Link>
-            { user && <Link to="/agregar-producto">Agregar producto</Link> }
-          </div>
-
-          <div className="nav-right">
-            {
-              !user ?
-                <>
-                  <Link to="/login" className="btn">Login</Link>
-                  <Link to="/registro" className="btn">Registro</Link>
-                </>
-                :
-                <>
-                  <button className="btn" onClick={handleLogout}>Cerrar sesión</button>
-                </>
-            }
-          </div>
+        <nav className="layout-nav">
+          <Link to="/">Nuestros productos</Link>
+          <Link to="/sobre-nosotros">Sobre nosotros</Link>
+          <Link to="/contacto">Contactanos</Link>
+          {
+            !user ?
+              <>
+                <Link to="/login">Login</Link>
+                <Link to="/registro">Registro</Link>
+              </>
+              :
+              <>
+                <Link to="/agregar-producto">Agregar producto</Link>
+                <button onClick={handleLogout}>Cerrar sesión</button>
+              </>
+          }
         </nav>
 
       </header>
@@ -45,7 +39,7 @@ const Layout = ({ children }) => {
       </main>
 
       <footer className="layout-footer">
-        <p>Sitio desarrollado por Jose Quesada</p>
+        <p>Sitio desarrollado por UTN</p>
       </footer>
     </>
   )

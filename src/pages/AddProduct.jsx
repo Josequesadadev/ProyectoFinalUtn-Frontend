@@ -13,13 +13,10 @@ const AddProduct = () => {
   })
 
   const navigate = useNavigate()
-  const API_URL = import.meta.env.VITE_API_URL
   const { token } = useAuth()
-  const [loader, setLoader] = useState(false)
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    setLoader(true)
 
     const dataToSend = {
       ...formData,
@@ -30,7 +27,7 @@ const AddProduct = () => {
     console.log(token)
 
     try {
-      const response = await fetch(`${API_URL}/products`, {
+      const response = await fetch(`http://localhost:3000/products`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -55,8 +52,6 @@ const AddProduct = () => {
       navigate("/")
     } catch (error) {
 
-    } finally {
-      setLoader(false)
     }
   }
 
@@ -116,7 +111,7 @@ const AddProduct = () => {
             onChange={(e) => handleChange(e)}
             value={formData.category}
           />
-          <button type="submit" className="btn btn--primary" aria-busy={loader} disabled={loader}>{loader ? "Agregando..." : "Agregar"}</button>
+          <button type="submit">Agregar</button>
         </form>
       </section>
     </Layout>

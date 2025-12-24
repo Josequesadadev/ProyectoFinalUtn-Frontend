@@ -12,7 +12,6 @@ const UpdateProduct = ({ product, onClose, onUpdate }) => {
   })
 
   const { token } = useAuth()
-  const API_URL = import.meta.env.VITE_API_URL
 
   const handleChange = (e) => {
     setFormData({
@@ -32,7 +31,7 @@ const UpdateProduct = ({ product, onClose, onUpdate }) => {
 
     try {
       setLoader(true)
-      const response = await fetch(`${API_URL}/products/${product._id}`, {
+      const response = await fetch(`http://localhost:3000/products/${product._id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -85,7 +84,7 @@ const UpdateProduct = ({ product, onClose, onUpdate }) => {
             value={formData.category}
             onChange={handleChange}
           />
-          <button type="submit" aria-busy={loader} disabled={loader}>{loader ? "Enviando..." : "Enviar"}</button>
+          <button type="submit">{loader ? "Enviando..." : "Enviar"}</button>
         </form>
         <button className="close-btn" type="button" onClick={onClose}>Cancelar</button>
       </div>
