@@ -66,41 +66,85 @@ h1, h2, h3, h4, h5, h6 {
   position: relative;
 }
 
+/* Estilos para el nav-center con efecto verde neon */
 .nav-center {
   display: flex;
-  flex: 1 1 auto;
-  justify-content: center;
-  gap: 22px;
   align-items: center;
-  pointer-events: auto;
-  z-index: 20;
-  background: var(--nav-section);
-  padding: 6px 14px;
+  justify-content: center;
+  gap: 24px;
+  padding: 8px 20px;
   border-radius: 12px;
-  border: 1px solid var(--nav-section-border);
-  box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+  background: rgba(31, 182, 168, 0.08);
+  border: 1px solid rgba(31, 182, 168, 0.2);
+  box-shadow: 
+    0 0 15px rgba(31, 182, 168, 0.1),
+    inset 0 0 20px rgba(31, 182, 168, 0.05);
 }
 
 .nav-center a {
-  color: var(--text);
+  color: var(--accent);
   text-decoration: none;
   font-weight: 600;
-  padding: 8px 12px;
+  padding: 8px 16px;
   border-radius: 8px;
-  transition: background-color .12s ease, transform .12s ease;
+  transition: all 0.25s ease;
+  position: relative;
+  background: rgba(31, 182, 168, 0.05);
+  border: 1px solid transparent;
 }
 
 .nav-center a:hover {
-  background: rgba(255,255,255,0.03);
+  background: rgba(31, 182, 168, 0.15);
+  border: 1px solid rgba(31, 182, 168, 0.3);
+  box-shadow: 
+    0 0 20px rgba(31, 182, 168, 0.3),
+    0 0 40px rgba(31, 182, 168, 0.1);
   transform: translateY(-2px);
+  color: #a3f7f0;
 }
 
+/* Efecto de brillo al pasar el cursor */
+.nav-center a::after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border-radius: 10px;
+  background: linear-gradient(45deg, 
+    transparent, 
+    rgba(31, 182, 168, 0.1), 
+    transparent);
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
 
+.nav-center a:hover::after {
+  opacity: 1;
+}
+
+/* Efecto de texto neon */
+.nav-center a {
+  text-shadow: 
+    0 0 5px rgba(31, 182, 168, 0.3),
+    0 0 10px rgba(31, 182, 168, 0.2);
+}
+
+.nav-center a:hover {
+  text-shadow: 
+    0 0 10px rgba(31, 182, 168, 0.6),
+    0 0 20px rgba(31, 182, 168, 0.4),
+    0 0 30px rgba(31, 182, 168, 0.2);
+}
+
+/* Estilos para el nav-right (derecha) */
 .nav-right {
-  margin-left: auto;
   display: flex;
   gap: 12px;
   align-items: center;
+  margin-left: auto;
   z-index: 30;
   background: var(--nav-section);
   padding: 6px 10px;
@@ -108,11 +152,74 @@ h1, h2, h3, h4, h5, h6 {
   border: 1px solid var(--nav-section-border);
 }
 
-.nav-right .btn { padding: 8px 12px; }
+/* Botones en nav-right */
+.nav-right .btn {
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  border: 1px solid var(--btn-border);
+}
 
+/* Botón primario (Registrarse) */
+.nav-right .btn--primary {
+  background: linear-gradient(180deg, var(--accent), #179884);
+  color: var(--bg);
+  border: 1px solid rgba(31, 182, 168, 0.4);
+  box-shadow: 
+    0 4px 12px rgba(31, 182, 168, 0.3),
+    0 0 20px rgba(31, 182, 168, 0.1);
+}
+
+.nav-right .btn--primary:hover {
+  background: linear-gradient(180deg, #179884, var(--accent));
+  box-shadow: 
+    0 6px 20px rgba(31, 182, 168, 0.5),
+    0 0 30px rgba(31, 182, 168, 0.2);
+  transform: translateY(-2px);
+}
+
+/* Botón secundario (Iniciar Sesión, Cerrar Sesión) */
+.nav-right .btn:not(.btn--primary) {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.nav-right .btn:not(.btn--primary):hover {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(31, 182, 168, 0.3);
+  color: var(--accent);
+  transform: translateY(-2px);
+}
+
+/* Saludo del usuario */
+.user-greeting {
+  color: var(--accent);
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 6px 12px;
+  margin-right: 8px;
+  background: rgba(31, 182, 168, 0.08);
+  border-radius: 6px;
+  border: 1px solid rgba(31, 182, 168, 0.1);
+}
 
 @media (max-width: 920px) {
-  .nav-center { position: static; transform: none; justify-content: center; gap: 18px; }
+  .nav-center { 
+    gap: 16px;
+    padding: 6px 16px;
+  }
+  
+  .nav-center a {
+    padding: 6px 12px;
+    font-size: 0.9rem;
+  }
+  
+  .nav-right .btn {
+    padding: 6px 12px;
+    font-size: 0.9rem;
+  }
 }
 
 .layout-nav a {
@@ -137,6 +244,15 @@ h1, h2, h3, h4, h5, h6 {
 @media (max-width: 720px) {
   .nav-center { display: none; }
   .layout-nav.container { padding: 0 12px; }
+  
+  .nav-right .btn {
+    padding: 6px 10px;
+    font-size: 0.8rem;
+  }
+  
+  .user-greeting {
+    display: none;
+  }
 }
 
 .layout-main {
@@ -254,6 +370,66 @@ h1, h2, h3, h4, h5, h6 {
   padding: 16px;
   border-radius: var(--radius);
   box-shadow: 0 6px 18px rgba(15, 94, 12, 0.548);
+}
+
+/* Estilos para los botones en las cards de productos */
+.cont-btn {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.cont-btn .btn {
+  flex: 1;
+  text-align: center;
+  justify-content: center;
+}
+
+.product-card .cont-btn button,
+.product-card .cont-btn .btn {
+  background: linear-gradient(180deg, var(--accent), #179884);
+  color: var(--bg);
+  border: 1px solid rgba(0,0,0,0.15);
+  font-weight: 600;
+  padding: 8px 12px;
+  min-width: 100px;
+}
+
+.product-card .cont-btn button:hover,
+.product-card .cont-btn .btn:hover {
+  background: linear-gradient(180deg, #179884, var(--accent));
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(31, 182, 168, 0.3);
+}
+
+/* Fondo para la página Home */
+.home-page-background {
+  position: relative;
+  min-height: 100vh;
+}
+
+.home-page-background::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url('/joystick.jpg');
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  opacity: 0.08;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.home-page-background .page-banner,
+.home-page-background .page-section,
+.home-page-background .filters-section,
+.home-page-background .products-grid,
+.home-page-background .modal-overlay {
+  position: relative;
+  z-index: 1;
 }
 
 .form-container {
@@ -432,6 +608,27 @@ button[aria-busy="true"]::after {
 
 .filters-form .btn {
   padding: 10px 12px;
+}
+
+/* Estilos para botones de filtros */
+.filters-form button[type="button"] {
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+  color: var(--text);
+  border: 1px solid var(--btn-border);
+}
+
+.filters-form button[type="button"]:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.filters-form button[type="submit"] {
+  background: linear-gradient(180deg, var(--accent), #179884);
+  color: var(--bg);
+  font-weight: 600;
+}
+
+.filters-form button[type="submit"]:hover {
+  background: linear-gradient(180deg, #179884, var(--accent));
 }
 
 .toast {

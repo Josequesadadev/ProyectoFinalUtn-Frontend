@@ -14,24 +14,41 @@ const Layout = ({ children }) => {
   return (
     <>
       <header className="layout-header">
-        <nav className="layout-nav">
-          <Link to="/">Nuestros productos</Link>
-          <Link to="/sobre-nosotros">Sobre nosotros</Link>
-          <Link to="/contacto">Contactanos</Link>
-          {
-            !user ?
-              <>
-                <Link to="/login">Login</Link>
-                <Link to="/registro">Registro</Link>
-              </>
-              :
-              <>
-                <Link to="/agregar-producto">Agregar producto</Link>
-                <button onClick={handleLogout}>Cerrar sesión</button>
-              </>
-          }
-        </nav>
+        <nav className="layout-nav container">
+          {/* Logo a la izquierda */}
+          <div className="nav-left">
+            <Link to="/" className="nav-logo">
+              GameStore
+            </Link>
+          </div>
 
+          {/* Enlaces de navegación centrados - CON ESTILO VERDE NEON */}
+          <div className="nav-center">
+            <Link to="/">Nuestros productos</Link>
+            <Link to="/sobre-nosotros">Sobre nosotros</Link>
+            <Link to="/contacto">Contactanos</Link>
+            
+            {/* Mostrar "Agregar producto" solo cuando el usuario está logueado */}
+            {user && <Link to="/agregar-producto">Agregar producto</Link>}
+          </div>
+
+          {/* Enlaces de autenticación a la derecha */}
+          <div className="nav-right">
+            {
+              !user ? (
+                <>
+                  <Link to="/login" className="btn">Iniciar Sesión</Link>
+                  <Link to="/registro" className="btn btn--primary">Registrarse</Link>
+                </>
+              ) : (
+                <>
+                  <span className="user-greeting">Hola, {user.id}</span>
+                  <button onClick={handleLogout} className="btn">Cerrar Sesión</button>
+                </>
+              )
+            }
+          </div>
+        </nav>
       </header>
 
       <main className="layout-main">
@@ -39,7 +56,7 @@ const Layout = ({ children }) => {
       </main>
 
       <footer className="layout-footer">
-        <p>Sitio desarrollado por UTN</p>
+        <p>Sitio desarrollado por Jose Quesada</p>
       </footer>
     </>
   )
